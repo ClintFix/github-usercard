@@ -32,7 +32,13 @@ console.log(axios.get('https://api.github.com/users/clintfix'))
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  "tetondan",
+  "dustinmyers",
+  "justsml",
+  "luishrd",
+  "bigknell"
+];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -82,7 +88,6 @@ function cardCreator(username) {
     elCardInfo.appendChild(elUserUserName);
     elCardInfo.appendChild(elUserLocation);
     elCardInfo.appendChild(elUserProfile);
-    elUserProfile.appendChild(elUserProfileLink);
     elCardInfo.appendChild(elUserFollowerCount);
     elCardInfo.appendChild(elUserFollowingCount);
     elCardInfo.appendChild(elUserBio);
@@ -97,9 +102,10 @@ function cardCreator(username) {
         elUserName.textContent = name;
         elUserUserName.textContent = login;
         elUserLocation.textContent = location;
-        elUserProfile.textContent = "Profile:";
+        elUserProfile.textContent = 'Profile: ';
+        elUserProfileLink.setAttribute('href', url);
         elUserProfileLink.textContent = url;
-        elUserProfileLink.href = url;
+        elUserProfile.appendChild(elUserProfileLink);
         elUserFollowerCount.textContent = `Followers: ${followers}`;
         elUserFollowingCount.textContent = `Following: ${following}`;
         elUserBio.textContent = `Bio: ${bio}`;
@@ -110,6 +116,12 @@ function cardCreator(username) {
   return elCard;
 }
 
+//Invote cardCreator and pass it a username. Add it to the DOM
+entryPoint.appendChild(cardCreator('clintfix'));
+
+followersArray.forEach(el => {
+  entryPoint.appendChild(cardCreator(el))
+});
 /*
   List of LS Instructors Github username's:
     tetondan
