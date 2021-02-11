@@ -1,8 +1,12 @@
+import axios from 'axios'
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+console.log(axios.get('https://api.github.com/users/clintfix'))
+
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -49,6 +53,62 @@ const followersArray = [];
       </div>
     </div>
 */
+const entryPoint = document.querySelector('.cards');
+
+function cardCreator(username) {
+  // create elements
+    const elCard = document.createElement('div');
+    const elUserImg = document.createElement('img');
+    const elCardInfo = document.createElement('div');
+    const elUserName = document.createElement('h3');
+    const elUserUserName = document.createElement('p');
+    const elUserLocation = document.createElement('p')
+    const elUserProfile = document.createElement('p');
+    const elUserProfileLink = document.createElement('a');
+    const elUserFollowerCount = document.createElement('p')
+    const elUserFollowingCount = document.createElement('p');
+    const elUserBio = document.createElement('p');
+
+  // set classnames, attributes
+    elCard.classList.add('card');
+    elCardInfo.classList.add('card-info');
+    elUserName.classList.add('name');
+    elUserUserName.classList.add('username');
+
+  // create hierarchy
+    elCard.appendChild(elUserImg);
+    elCard.appendChild(elCardInfo);
+    elCardInfo.appendChild(elUserName);
+    elCardInfo.appendChild(elUserUserName);
+    elCardInfo.appendChild(elUserLocation);
+    elCardInfo.appendChild(elUserProfile);
+    elUserProfile.appendChild(elUserProfileLink);
+    elCardInfo.appendChild(elUserFollowerCount);
+    elCardInfo.appendChild(elUserFollowingCount);
+    elCardInfo.appendChild(elUserBio);
+
+  
+  // get data based on username
+  axios.get(`https://api.github.com/users/${username}`)
+    .then(response => {
+      const { avatar_url, name, login, location, url, followers, following, bio} = response.data;
+      // Set content
+        elUserImg.src = avatar_url;
+        elUserName.textContent = name;
+        elUserUserName.textContent = login;
+        elUserLocation.textContent = location;
+        elUserProfile.textContent = "Profile:";
+        elUserProfileLink.textContent = url;
+        elUserProfileLink.href = url;
+        elUserFollowerCount.textContent = `Followers: ${followers}`;
+        elUserFollowingCount.textContent = `Following: ${following}`;
+        elUserBio.textContent = `Bio: ${bio}`;
+    })
+    .catch(err => {
+      console.log(err = " <- this is the error");
+    })
+  return elCard;
+}
 
 /*
   List of LS Instructors Github username's:
